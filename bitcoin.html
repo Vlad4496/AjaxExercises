@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <script>
+    //   ready imi oferta siguranta ca toate elementele s-au incarcat
+    $(document).ready(function () {
+      updateRate();
+      function updateRate() {
+        // creez un obiect de tip request
+        var request = new XMLHttpRequest();
+        // setez requestul
+        request.open(
+          "GET",
+          "https://api.coindesk.com/v1/bpi/currentprice.json"
+        );
+
+        // setez actiunea in urma carei primesc raspuns
+        request.onreadystatechange = function () {
+          if (this.readyState === 4) {
+            // Parseaza
+            var rates = JSON.parse(request.response);
+            // Valoarea parsata
+            $("#rate").html(rates.bpi.EUR.rate);
+          }
+        };
+        // trimit requestul
+        request.send();
+      }
+    });
+  </script>
+  <body>
+    <span id="rate"></span> EUR
+  </body>
+</html>
